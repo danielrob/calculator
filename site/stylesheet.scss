@@ -1,0 +1,34 @@
+#calculator {
+  width: 220px;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 16px;
+  border: 5px solid grey;
+}
+
+#screen {
+  background-color: beige;
+  height: 40px;
+  border: 2px solid brown;
+  line-height:40px;
+  font-size: 22px;
+  margin: 16px -4px;
+  text-align: right;
+  overflow-x: auto;
+}
+
+#buttons {
+  width: 216px;
+  margin: auto;
+}
+
+button {
+  width: 51px;
+  height: 40px;
+  margin-top: 5px;
+}
+
+.plus {
+  height: 85px;
+  float: right;
+}
