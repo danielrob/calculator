@@ -40,7 +40,7 @@ module.exports = function(grunt) {
       },
       //Watch karma: run unit tests with karma (server needs to be already running)
       karma: {
-        files: ['site/**/*.js'], // These are the watch files, not the karma files (see karma.conf.js).
+        files: ['site/**/*.js', 'tests/**/*.js'], // These are the watch files, not the karma files (see karma.conf.js).
         tasks: ['karma:unit:run'],
         options: {
           // Significantly faster, docs say possibly less stable.
