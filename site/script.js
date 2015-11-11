@@ -136,9 +136,7 @@
         applyOperation();
         equalsApplied = true;
         screen.clear();
-        setTimeout(function() {
-          screen.write(firstNumbr.toDecimal());
-        }, 15);
+        screen.write(firstNumbr.toDecimal());
       },
       ".": function decimal() {
         applyToCurrentNumber(function(num) {
@@ -262,7 +260,7 @@
 
 
 
-  window.onload = function createKeyEventHandlers() {
+  (function createKeyEventHandlers() {
     var keys =
       [1, 2, 3, 4, 5, 6, 7, 8, 9, 0, "AC", "CE", "=", ".", "/", "+", "-", "x", "x^y", "+/-", "%"];
     var createHandler = function(el, key) {
@@ -274,6 +272,6 @@
       var key = keys[i];
       createHandler(document.getElementById(key), key);
     }
-  };
+  })();
 
 })();
