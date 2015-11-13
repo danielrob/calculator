@@ -51,26 +51,26 @@ describe("Calculator", function(){
   });
 
   describe('number output display', function() {
-    test('numbers of 14 digits output naturally',
-         '88888888888888=', '88888888888888');
+    test('numbers of 11 digits output naturally',
+         '88888888888=', '88888888888');
 
-    test('numbers of 15 digits output in exponential form',
-         '888888888888889=', '8.88888888888889e+14');
+    test('numbers of 12 digits output in exponential form',
+         '888888888888=', '8.8888889e+11');
 
-    test('decimals wont round until 14 digits',
-         '0.500000000000001=', '0.500000000000001');
+    test('decimals wont round until 11 digits',
+         '0.500000000001=', '0.500000000001');
 
-    test('decimals round after 14 digits',
-         '0.5000000000000001=', '0.5');
+    test('decimals round after 11 digits',
+         '0.5000000000001=', '0.5');
 
     test('decimals use exponential form if they are 9e-7 or less',
          '0.0000009=', '9e-7');
 
-    test('large numbers with decimal precision output naturally',
-         '1234567.89101112=','1234567.89101112');
+    test('large numbers with decimal precision output to 11 digits',
+         '1234567.89101112=','1234567.89101');
 
     test('large numbers with decimal precision output will round',
-         '1234567891011.12131415=','1234567891011.12');
+         '12345678910.12131415=','12345678910.1');
 
     test('0.1 displayed naturally',
          '0.1+0.2=', '0.3');
@@ -91,12 +91,6 @@ describe("Calculator", function(){
 
   describe('functions', function() {
 
-    test('CE clears a pending operation',
-         ["3","+","CE","3"], '33');
-
-    test('CE clears a pending operation and a number',
-         ["3","+","5","6","CE","3"], '33');
-
     test('% on addition adds percentage of first number',
          '10+49%=', '14.9');
 
@@ -107,7 +101,7 @@ describe("Calculator", function(){
          '100x49%=', '49');
 
     test('% on division returns percentage division of first number',
-         '100/49%=', '204.081632653061');
+         '100/49%=', '204.081632653');
 
     test('. cannot decimalise a number twice',
          '3.323.123=', '3.323123')
@@ -122,7 +116,7 @@ describe("Calculator", function(){
          [7,"x^y",7,"="], '823543')
 
     test('x^y performs the power operation on negative numbers',
-         [7,"x^y","-",7,"="], '0.00000121426567890201')
+         [7,"x^y","-",7,"="], '0.0000012142656789')
 
   });
 

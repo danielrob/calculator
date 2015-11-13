@@ -23,7 +23,7 @@ module.exports = function(config) {
 
     // list of files to exclude
     exclude: [
-      'site/bower_components/**/*.js.js'
+      'site/bower_components/**/*.js'
     ],
 
     // preprocess matching files before serving them to the browser

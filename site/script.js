@@ -45,7 +45,7 @@
     }
 
     function strip(number) {
-      return parseFloat(number.toPrecision(15));
+      return parseFloat(number.toPrecision(12));
     }
 
     Numbr.prototype = {
@@ -61,7 +61,11 @@
         this.value = this.value || 0;
         var unNegated = this.value /  Math.pow(10, this.decimals);
         var negated = this.negated ? -unNegated : unNegated;
-        return negated > Math.pow(10,14) ? negated.toExponential(14) : strip(negated);
+        if (negated > Math.pow(10,11)) {
+          return Number(negated.toExponential(11)).toPrecision(8);
+        } else {
+          return strip(negated);
+        }
       },
       startDecimal: function() {
         this.startDecimaling = true;
@@ -178,6 +182,7 @@
         applyToCurrentNumber(function(num) {
           num.negate();
         });
+        screen.write(firstNumbr.toDecimal());
       }
     };
 
@@ -262,7 +267,7 @@
 
   (function createKeyEventHandlers() {
     var keys =
-      [1, 2, 3, 4, 5, 6, 7, 8, 9, 0, "AC", "CE", "=", ".", "/", "+", "-", "x", "x^y", "+/-", "%"];
+      [1, 2, 3, 4, 5, 6, 7, 8, 9, 0, "AC", "=", ".", "/", "+", "-", "x", "x^y", "+/-", "%"];
     var createHandler = function(el, key) {
       el.addEventListener("click", function() {
         Calculator.sendKey(key);
@@ -272,6 +277,20 @@
       var key = keys[i];
       createHandler(document.getElementById(key), key);
     }
+  })();
+
+  (function clock() {
+    var timeNode = document.getElementById('time');
+    function update() {
+      var date = new Date();
+      var meridies = date.getHours() < 13 ? 'AM' : 'PM';
+      var hours = date.getHours() % 12;
+      var minutes = date.getMinutes() < 10 ?
+          '0' + date.getMinutes() : date.getMinutes();
+      timeNode.innerHTML = hours + ':' + minutes + ' ' + meridies;
+    }
+    update();
+    setInterval(update, 1000*60);
   })();
 
 })();

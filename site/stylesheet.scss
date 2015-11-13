@@ -1,34 +1,125 @@
-#calculator {
-  width: 220px;
-  margin-left: auto;
-  margin-right: auto;
-  padding: 16px;
-  border: 5px solid grey;
+
+@import "./bower_components/bourbon/app/assets/stylesheets/_bourbon.scss";
+@import "./bower_components/neat/app/assets/stylesheets/_neat.scss";
+@import url(https://fonts.googleapis.com/css?family=Open+Sans);
+
+$dark-background: #374352;
+$lighten: #3A4655;
+$darken: darken($dark-background, 5);
+$red: #9C5553;
+$white: #D5DADE;
+$grey: #5F6A75;
+
+$depth: 5;
+
+@function top-shadow($depth) {
+  $primary-offset: nth(1.5 3 10 14 19, $depth) * 1px;
+  $blur: nth(1.5 3 10 14 19, $depth) * 4px;
+  $color: rgba(black, nth(.12 .16 .19 .25 .30, $depth));
+
+  @return 0 $primary-offset $blur $color;
 }
 
-#screen {
-  background-color: beige;
-  height: 40px;
-  border: 2px solid brown;
-  line-height:40px;
-  font-size: 22px;
-  margin: 16px -4px;
+@function bottom-shadow($depth) {
+  $primary-offset: nth(1.5 3 6 10 15, $depth) * 1px;
+  $blur: nth(1 3 3 5 6, $depth) * 4px;
+  $color: rgba(black, nth(.24 .23 .23 .22 .22, $depth));
+
+  @return 0 $primary-offset $blur $color;
+}
+
+body {
+  background-color: #C7E1E2;
+  font-family: 'Open Sans', Arial;
+}
+
+.wrapper {
+  margin-top: 30px;
+  width: 100%;
+}
+
+.calculator {
+  width: 300px;
+  margin: 0 auto;
+  height: 380px;
+  background-color: $dark-background;
+  border-radius: 10px;
+  box-shadow: bottom-shadow($depth), top-shadow($depth);
+}
+
+.calculator__toolbar {
+  width: 100%;
+  height: 20px;
+  font-size: .6em;
+  color: $white;
+  padding: 2px 10px 2px 10px;
+  i { font-size: .2em; }
+  @at-root #{&}-signal {
+    @include span-columns(4);
+    text-align: left;
+    span { margin: 0 2px 0 2px; }
+  }
+  @at-root #{&}-time {
+    @include span-columns(4);
+    text-align: center;
+  }
+  @at-root #{&}-battery {
+    @include span-columns(4);
+    text-align: right;
+  }
+}
+.calculator__display {
+  height: 60px;
+  width: 100%;
+  background-color: $lighten;
+  border-radius: 0;
   text-align: right;
-  overflow-x: auto;
+  color: $white;
+  padding-right: 15px;
+  padding-left: 15px;
+  @at-root #{&}-answer {
+    height: 60px;
+    font-size: 2.5em;
+  }
 }
 
-#buttons {
-  width: 216px;
-  margin: auto;
+.calculator__row {
+  display: block;
+  width: 100%;
+
+  text-align: center;
 }
 
-button {
-  width: 51px;
-  height: 40px;
-  margin-top: 5px;
-}
+.calculator__button {
+  display: inline-block;
+  @include span-columns(3, block-collapse);
+  height: 60px;
+  font-size: 1.2em;
+  line-height: 3em;
+  border-top: 1px solid $lighten;
+  @include transition(background-color .3s);
+  cursor: pointer;
 
-.plus {
-  height: 85px;
-  float: right;
+  &:hover {
+    background-color: lighten($dark-background, 5);
+  }
+
+  &:nth-child(-n+3) {
+    border-right: 1px solid $lighten;
+  }
+
+  @at-root #{&}-red {
+    @extend .calculator__button;
+    color: $red;
+  }
+
+  @at-root #{&}-grey {
+    @extend .calculator__button;
+    color: $grey;
+  }
+
+  @at-root #{&}-white {
+    @extend .calculator__button;
+    color: $white;
+  }
 }
