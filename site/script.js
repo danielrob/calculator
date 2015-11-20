@@ -4,9 +4,9 @@
   /*
     Screen
   */
-  window.Screen = function(node) {
+  var Screen = window.Screen = function(node) {
     this.node = node;
-  }
+  };
 
   Screen.prototype = {
     write: function(html) {
@@ -23,7 +23,7 @@
     addChar: function(char) {
       this.node.innerHTML += char;
     },
-    read: function(){
+    read: function() {
       return this.node.innerHTML;
     }
   };
@@ -61,7 +61,7 @@
         this.value = this.value || 0;
         var unNegated = this.value /  Math.pow(10, this.decimals);
         var negated = this.negated ? -unNegated : unNegated;
-        if (negated > Math.pow(10,11)) {
+        if (negated >  Math.pow(10, 11)) {
           return Number(negated.toExponential(11)).toPrecision(8);
         } else {
           return strip(negated);
@@ -205,7 +205,8 @@
 
           applyToCurrentNumber(function(num) {
             // Leading zeros problem
-            if (num.isValued() && !num.startDecimaling && num.value === 0) {
+            if (num.isValued() && !num.startDecimaling && num.value ===
+              0) {
               if (theKey === 0) {
                 screen.correction('', 1);
               } else {
@@ -224,7 +225,8 @@
               firstNumbr.negate();
               screen.correction('-');
               return;
-            } else if (!!opPending && !secondNumbr.isValued() && !secondNumbr.negated) {
+            } else if (!!opPending && !secondNumbr.isValued() && !
+              secondNumbr.negated) {
               secondNumbr.negate();
               return;
             }
@@ -252,7 +254,8 @@
           // Ensure we will accept new numbers after equals
           equalsApplied = false;
 
-        } else if (typeof functions[theKey] === 'function') functions[theKey]();
+        } else if (typeof functions[theKey] === 'function') functions[
+          theKey]();
       },
 
       error: function() {
@@ -264,10 +267,10 @@
 
 
 
-
   (function createKeyEventHandlers() {
-    var keys =
-      [1, 2, 3, 4, 5, 6, 7, 8, 9, 0, "AC", "=", ".", "/", "+", "-", "x", "x^y", "+/-", "%"];
+    var keys = [1, 2, 3, 4, 5, 6, 7, 8, 9, 0, "AC", "=", ".", "/", "+", "-",
+      "x", "x^y", "+/-", "%"
+    ];
     var createHandler = function(el, key) {
       el.addEventListener("click", function() {
         Calculator.sendKey(key);
@@ -281,16 +284,17 @@
 
   (function clock() {
     var timeNode = document.getElementById('time');
+
     function update() {
       var date = new Date();
-      var meridies = date.getHours() < 13 ? 'AM' : 'PM';
+      var meridies = date.getHours() <  13 ? 'AM' : 'PM';
       var hours = date.getHours() % 12;
-      var minutes = date.getMinutes() < 10 ?
-          '0' + date.getMinutes() : date.getMinutes();
+      var minutes = date.getMinutes() <  10 ?
+        '0' + date.getMinutes() : date.getMinutes();
       timeNode.innerHTML = hours + ':' + minutes + ' ' + meridies;
     }
     update();
-    setInterval(update, 1000*60);
+    setInterval(update, 1000 * 60);
   })();
 
 })();
