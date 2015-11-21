@@ -1,9 +1,13 @@
-var screen = function screen() {
-  if (!screen.node) {
-    screen.node = document.getElementById('screen');
+function getScreen(screenId) {
+  var node = document.getElementById(screenId);
+  return function () {
+    return node.innerHTML;
   }
-  return screen.node.innerHTML;
 }
+
+var answerScreen = getScreen('screen');
+var historyScreen = getScreen('historyScreen');
+
 
 function input(keys) {
   var keyArray = (typeof keys === 'string') ? keys.split('') : keys;
@@ -12,10 +16,11 @@ function input(keys) {
   }
 }
 
-function test(desc, keysInput, expectedOutput) {
+function test(desc, keysInput, expectedAnswer, expectedHistory) {
   return it(desc, function() {
     input(keysInput);
-    expect(screen()).toBe(expectedOutput);
+    if (!!expectedAnswer) expect(answerScreen()).toBe(expectedAnswer);
+    if (!!expectedHistory) expect(historyScreen()).toBe(expectedHistory);
   });
 }
 
@@ -28,31 +33,31 @@ describe("Calculator", function() {
   describe('input behaviour', function() {
 
     test('should display input history on screen',
-         '3+3x9/7-44', '3+3x9/7-44');
+         '3+3x9/7-44', '', '3+3x9/7-44');
 
     test('number entry after equals starts again',
-         '3+4=5+6', '5+6');
+         '3+4=5+6', '', '5+6');
 
-    test('operation entry after equals continues with collapsed history',
-         '3+4=+5+6', '7+5+6');
+    test('operation entry after equals continues with bracketed history',
+         '3+4=+5+6', '', '(3+4)+5+6');
 
     test('allows for changing operations',
-         '3-+x/x+x7-+4', '3x7+4');
+         '3-+x/x+x7-+4', '', '3x7+4');
 
     test('negative numbers can follow operations',
-         '3+x/x+x-7-+-4', '3x-7+-4');
+         '3+x/x+x-7-+-4', '', '3x-7+-4');
 
     test("allows for double negative inputs",
-      '-+3--0.7', '+3--0.7')
+      '-+3--0.7', '', '+3--0.7')
 
     test("doesn't allow leading zeros",
-      '0000444000', '444000');
+      '0000444000', '', '444000');
 
     test('allows one leading zeros on decimal input',
-         '00.8898000', '0.8898000');
+         '00.8898000', '', '0.8898000');
 
     test('corrects implicit multiplication',
-         '4(5+3)', '4x(5+3)');
+         '4(5+3)', '', '4x(5+3)');
   });
 
   describe('computation', function() {

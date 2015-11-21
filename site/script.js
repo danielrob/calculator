@@ -20,11 +20,12 @@
     }
   };
 
-  var screen = new Screen(document.getElementById('screen'));
+  var screen = new Screen(document.getElementById('historyScreen'));
+  var answerScreen = new Screen(document.getElementById('screen'));
   /*
     Calculator operates on a screen in response to its .newKey method calls.
   */
-  var Calculator = window.Calculator = (function(screen) {
+  var Calculator = window.Calculator = (function(screen, answerScreen) {
     var lastKey = '';
 
     var ops = {
@@ -134,15 +135,22 @@
     }
 
     var functions = {
-      '=': function() { screen.write(equate()); },
-      'AC': function() { screen.clear(); },
+      '=': function() { answerScreen.write(equate()); },
+      'AC': function() {
+        screen.clear();
+        answerScreen.clear();
+      },
     };
 
     // Calculator API
     return {
       sendKey: function(theKey) {
-        if (lastKey === '=' && typeof theKey === 'number') {
-          screen.clear();
+        if (lastKey === '=') {
+          if (typeof theKey === 'number') {
+            screen.clear();
+          } else {
+            screen.write('(' + screen.read() + ')');
+          }
         }
         lastKey = theKey;
 
@@ -154,7 +162,7 @@
       }
     };
 
-  })(screen);
+  })(screen, answerScreen);
 
   // Create Event Handlers for the calculator keys in the DOM.
   (function createKeyEventHandlers() {

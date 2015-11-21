@@ -16,7 +16,7 @@ body {
 .calculator {
   width: 300px;
   margin: 0 auto;
-  height: 380px;
+  height: 410px;
   background-color: #374352;
   border-radius: 10px;
   box-shadow: 0 15px 24px rgba(0, 0, 0, 0.22), 0 19px 76px rgba(0, 0, 0, 0.3); }
@@ -57,23 +57,26 @@ body {
       margin-right: 0; }
 
 .calculator__display {
-  height: 60px;
+  height: 90px;
   width: 100%;
   background-color: #3A4655;
   border-radius: 0;
   text-align: right;
   color: #D5DADE;
   padding-right: 15px;
-  padding-left: 15px;
-  overflow-x: auto; }
+  padding-left: 10px; }
+  .calculator__display-history {
+    height: 30px;
+    padding-top: 7px;
+    color: #5F6A75;
+    overflow-x: auto; }
   .calculator__display-answer {
     height: 60px;
     font-size: 2.5em; }
 
-#screen {
+#historyScreen {
   width: 500%;
-  float: right;
-  margin-right: -5px; }
+  float: right; }
 
 .calculator__row {
   display: block;
@@ -107,3 +110,46 @@ body {
     color: #5F6A75; }
   .calculator__button-white {
     color: #D5DADE; }
+
+.calculator {
+  width: 300px;
+  margin: 0 auto;
+  height: 410px;
+  background-color: #374352;
+  border-radius: 10px;
+  box-shadow: 0 15px 24px rgba(0, 0, 0, 0.22), 0 19px 76px rgba(0, 0, 0, 0.3); }
+
+.calculator__toolbar {
+  width: 100%;
+  height: 20px;
+  font-size: .6em;
+  color: #D5DADE;
+  padding: 2px 10px 2px 10px; }
+  .calculator__toolbar i {
+    font-size: .2em; }
+  .calculator__toolbar-signal {
+    float: left;
+    display: block;
+    margin-right: 2.35765%;
+    width: 31.76157%;
+    text-align: left; }
+    .calculator__toolbar-signal:last-child {
+      margin-right: 0; }
+    .calculator__toolbar-signal span {
+      margin: 0 2px 0 2px; }
+  .calculator__toolbar-time {
+    float: left;
+    display: block;
+    margin-right: 2.35765%;
+    width: 31.76157%;
+    text-align: center; }
+    .calculator__toolbar-time:last-child {
+      margin-right: 0; }
+  .calculator__toolbar-battery {
+    float: left;
+    display: block;
+    margin-right: 2.35765%;
+    width: 31.76157%;
+    text-align: right; }
+    .calculator__toolbar-battery:last-child {
+      margin-right: 0; }
