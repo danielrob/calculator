@@ -104,9 +104,9 @@
         displayFormattted = function displayFormattted() {
           var outFormat = parseFloat(input, 10);
           if (Math.abs(outFormat) >  Math.pow(10, 11)) {
-            return Number(outFormat.toExponential(11)).toPrecision(7);
+            return String(Number(outFormat.toExponential(11)).toPrecision(7));
           } else {
-            return parseFloat(outFormat.toPrecision(12));
+            return String(parseFloat(outFormat.toPrecision(12))).substring(0,13);
           }
         };
 
@@ -123,10 +123,13 @@
     }
 
     function sanitizeInput(str) {
+      return str
       // change of operation (e.g. +/ -> /)
-      return str.replace(/[x\+\/\-]([x\+\/])/, '$1')
-      // too many minuses (e.g. --- -> -)
-      .replace(/\-{3}/, '--')
+      .replace(/[x\+\/\-]([x\+\/])/, '$1')
+      // leading minuses (e.g. --9 -> -9)
+      .replace(/^--/, '-')
+      // too many minuses (e.g. +-- -> -)
+      .replace(/([\+\-\/x])--/, '$1-')
       // Leading zeros
       .replace(/^(\-?)0([0-9])/, '$1$2')
       // Misplaced decimals
@@ -242,6 +245,8 @@
 
     // Map to polyfill event.key in Chrome.
     var keyCodeMap = {
+      '97': 'a',
+      '65': 'A',
       '40': '(',
       '41': ')',
       '48': '0',
@@ -253,6 +258,7 @@
       '54': '6',
       '55': '7',
       '56': '8',
+      '57': '9',
       '42': 'x',
       '120': 'x',
       '106': 'x',
@@ -261,9 +267,10 @@
       '45': '-',
       '109': '-',
       '189': '-',
-      '44': '.',
+      '44': ',',
       '110': '.',
       '190': '.',
+      '47': '/',
       '111': '/',
       '191': '/',
       '13': '=',

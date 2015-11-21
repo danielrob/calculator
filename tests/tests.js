@@ -53,6 +53,12 @@ describe("Calculator", function() {
     test("allows for double negative inputs",
       '-+3--0.7', '', '+3--0.7')
 
+    test("no double negatives at start",
+      '--0.7', '', '-0.7')
+
+    test("no double negatives after operations",
+      '3+--0.7', '', '3+-0.7')
+
     test("doesn't allow leading zeros",
       '0000444000', '', '444000');
 
@@ -106,8 +112,8 @@ describe("Calculator", function() {
     test('negative numbers of 12 digits output in exponential form',
          '-888888888888=', '-8.888889e+11');
 
-    test('decimals wont round until 11 digits',
-         '0.500000000001=', '0.500000000001');
+    test('decimals wont round until 11 digits (but may be clipped to fit)',
+         '-0.500000000111=', '-0.5000000001');
 
     test('decimals round after 11 digits',
          '0.5000000000001=', '0.5');
