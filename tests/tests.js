@@ -32,6 +32,9 @@ describe("Calculator", function() {
 
   describe('input behaviour', function() {
 
+    test('pressing equals on empty input is zero',
+         '=', '0');
+
     test('should display input history on screen',
          '3+3x9/7-44', '', '3+3x9/7-44');
 
@@ -52,6 +55,9 @@ describe("Calculator", function() {
 
     test("doesn't allow leading zeros",
       '0000444000', '', '444000');
+
+    test("no leading zeros on negative numbers",
+      '-0000444000', '', '-444000');
 
     test('allows one leading zeros on decimal input',
          '00.8898000', '', '0.8898000');
@@ -95,7 +101,10 @@ describe("Calculator", function() {
          '88888888888=', '88888888888');
 
     test('numbers of 12 digits output in exponential form',
-         '888888888888=', '8.8888889e+11');
+         '888888888888=', '8.888889e+11');
+
+    test('negative numbers of 12 digits output in exponential form',
+         '-888888888888=', '-8.888889e+11');
 
     test('decimals wont round until 11 digits',
          '0.500000000001=', '0.500000000001');
