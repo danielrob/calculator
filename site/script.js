@@ -28,30 +28,10 @@
     var lastKey = '';
 
     var ops = {
-      "+": function(a, b) {
-        return a + b;
-      },
-      "-": function(a, b) {
-        return a - b;
-      },
-      "x": function(a, b) {
-        return a * b;
-      },
-      "/": function(a, b) {
-        return a / b;
-      },
-    };
-
-    var functions = {
-      '=': function() {
-        screen.write(equate());
-      },
-      'AC': function() {
-        screen.clear();
-      },
-      '+/-': function() {
-
-      },
+      "+": function(a, b) { return a + b; },
+      "-": function(a, b) { return a - b; },
+      "x": function(a, b) { return a * b; },
+      "/": function(a, b) { return a / b; },
     };
 
     function equate() {
@@ -80,25 +60,33 @@
 
         /*
           Compute finds the next triplet to compute, gets the result,
-           updates input, and repeats, until there are no triplets left.
+           and updates input repditively, until there are no triplets left.
         */
         compute = function compute() {
 
           // First are there any triplets inside brackets
           var brackets = input.match(/\(([0-9.]+[\+\-\/x]\-?[0-9.])\)/),
-            // Regex a triplet from the brackets or the input.
-            triplet = (function(matchable) {
-              return matchable.match(
-                /(\-?[0-9.]+\%?)([\+\-\/x])(\-?[0-9.]+\%?)/);
-            })(!!brackets ? brackets[1] : input);
 
-          if (!triplet) return;
+            // Regex a triplet from inside brackets or the input.
+              triplet = (function(matchable) {
+                  return matchable.match(
+                  /(\-?[0-9.]+\%?)([\+\-\/x])(\-?[0-9.]+\%?)/);
+              })(!!brackets ? brackets[1] : input);
 
+          // Nothing found? Handle the percentage case (e.g. 34%=) then return.
+          if (!triplet) {
+            var isPercentage = input.match(/(^\-?[0-9.]+)%$/);
+            if (!!isPercentage) input = String(Number(isPercentage[1]) / 100);
+            return;
+          }
+
+          // Otherwise compute the triplet
           var result = computeTriplet(triplet);
           input = input.replace(
             /\(?\-?[0-9.]+\%?[\+\-\/x]\-?[0-9.]+\%?\)?/,
             result);
 
+          // Repeat
           compute();
         },
 
@@ -120,33 +108,44 @@
           }
         };
 
-      // Remove superfluous brackets (e.g. (4) )
+      // Remove superfluous brackets before we start (e.g. (4) )
       input = input.replace(/\((\-?[0-9.]+)\)/g, '$1');
       // Go!
       compute();
       // Make the computation result clean.
       sanitizeOutput();
 
+      // Return the formatted result
       return isNaN(parseFloat(input, 10)) ? 'Error' : displayFormattted();
     }
 
     function sanitizeInput(str) {
       // change of operation (e.g. +x -> x)
-      str = str.replace(/[x\+\/\-]([x\+\/])/, '$1');
+      return str.replace(/[x\+\/\-]([x\+\/])/, '$1')
       // too many minuses (e.g. --- -> -)
-      str = str.replace(/\-{3}/, '--');
+      .replace(/\-{3}/, '--')
       // Leading zeros
-      str = str.replace(/^0([0-9])/, '$1');
-      // Multiple Decimals
-      str = str.replace(/([0-9]+\.[0-9]+)\./, '$1');
-      return str;
+      .replace(/^0([0-9])/, '$1')
+      // Misplaced decimals
+      .replace(/\.{2}/, '.')
+      .replace(/(\.[0-9]+)\./, '$1')
+      // Implicit Multiplication
+      .replace(/([0-9.]+)\(/, '$1x(');
     }
 
+    var functions = {
+      '=': function() { screen.write(equate()); },
+      'AC': function() { screen.clear(); },
+    };
+
+    // Calculator API
     return {
       sendKey: function(theKey) {
-        if (lastKey === '=' && typeof theKey === 'number') screen.clear();
-
+        if (lastKey === '=' && typeof theKey === 'number') {
+          screen.clear();
+        }
         lastKey = theKey;
+
         if (typeof functions[theKey] === 'function') {
           functions[theKey]();
           return;
@@ -173,14 +172,14 @@
     }
   })();
 
-  // Set clock and make it run. 
+  // Set clock and make it run.
   (function clock() {
     var timeNode = document.getElementById('time');
 
     function update() {
       var date = new Date();
-      var meridies = date.getHours() <  13 ? 'AM' : 'PM';
-      var hours = date.getHours() % 12;
+      var meridies = date.getHours() <  12 ? 'AM' : 'PM';
+      var hours = date.getHours() === 12 ? 12 : date.getHours() % 12;
       var minutes = date.getMinutes() <  10 ?
         '0' + date.getMinutes() : date.getMinutes();
       timeNode.innerHTML = hours + ':' + minutes + ' ' + meridies;
@@ -189,21 +188,16 @@
     setInterval(update, 1000 * 60);
   })();
 
-  // Add Fast Click
-  (function() {
-    if ('addEventListener' in document) {
-        document.addEventListener('DOMContentLoaded', function() {
-            FastClick.attach(document.body);
-        }, false);
-    }
-  })();
+  // Add Fast Click to remove 300ms delay from mobile devices
+  if ('addEventListener' in document) {
+      document.addEventListener('DOMContentLoaded', function() {
+          FastClick.attach(document.body);
+      }, false);
+  }
 
   // Activate the no-touch class on non-touch devices.
-  (function() {
-    if (!("ontouchstart" in document.documentElement)) {
-      document.body.className += "no-touch";
-    }
-
-  }());
+  if (!("ontouchstart" in document.documentElement)) {
+    document.body.className += "no-touch";
+  }
 
 })();

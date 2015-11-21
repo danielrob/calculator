@@ -50,6 +50,9 @@ describe("Calculator", function() {
 
     test('allows one leading zeros on decimal input',
          '00.8898000', '0.8898000');
+
+    test('corrects implicit multiplication',
+         '4(5+3)', '4x(5+3)');
   });
 
   describe('computation', function() {
@@ -140,6 +143,13 @@ describe("Calculator", function() {
 
     test('. can decimalise a number without leading digit',
          '.999=', '0.999')
+
+    test('. no multiple decimals in a row',
+         '..323.123=', '0.323123')
+
+    test('. no multiple decimals in a row after op',
+         '.323+..44=', '0.763')
+
   });
 
   describe('expected errors', function() {
