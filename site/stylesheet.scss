@@ -77,11 +77,19 @@ body {
   color: $white;
   padding-right: 15px;
   padding-left: 15px;
+  overflow-x: auto;
   @at-root #{&}-answer {
     height: 60px;
     font-size: 2.5em;
   }
 }
+
+#screen {
+  width: 500%;
+  float: right;
+  margin-right: -5px;
+}
+
 
 .calculator__row {
   display: block;
@@ -100,7 +108,11 @@ body {
   @include transition(background-color .3s);
   cursor: pointer;
 
-  &:hover {
+  &:active {
+    background-color: lighten($dark-background, 5);
+  }
+
+  .no-touch &:hover {
     background-color: lighten($dark-background, 5);
   }
 

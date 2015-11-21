@@ -123,9 +123,8 @@ module.exports = function(grunt) {
       // Angular Options:
       "jasmine": true,
       globals: {
-        "angular" : false,
+        "FastClick" : false,
         "module" : false,
-        "inject" : false,
       }
     };
   }

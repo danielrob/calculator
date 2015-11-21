@@ -189,4 +189,21 @@
     setInterval(update, 1000 * 60);
   })();
 
+  // Add Fast Click
+  (function() {
+    if ('addEventListener' in document) {
+        document.addEventListener('DOMContentLoaded', function() {
+            FastClick.attach(document.body);
+        }, false);
+    }
+  })();
+
+  // Activate the no-touch class on non-touch devices.
+  (function() {
+    if (!("ontouchstart" in document.documentElement)) {
+      document.body.className += "no-touch";
+    }
+
+  }());
+
 })();

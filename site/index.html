@@ -8,6 +8,7 @@
   <link rel="stylesheet" type="text/css" href="./bower_components/font-awesome/css/font-awesome.min.css">
   <link rel="stylesheet" type="text/css" href="stylesheet.css">
   <!-- /Styles  -->
+  <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 
 <body>
@@ -21,7 +22,9 @@
       </div>
       <div class="calculator__display">
         <div id="historyScreen" class="calculator__display-history"></div>
-        <div id="screen" class="calculator__display-answer"></div>
+        <div class="calculator__display-answer">
+          <div id="screen"></div>
+        </div>
       </div>
       <div class="calculator__row">
         <div id="AC" class="calculator__button-red">AC</div>
@@ -59,6 +62,7 @@
 
 </body>
 
+<script type='application/javascript' src='/bower_components/fastclick/lib/fastclick.js'></script>
 <script src="script.js"></script>
 
 </html>
